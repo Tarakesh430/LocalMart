@@ -4,7 +4,11 @@ import Order from '../models/orderModel.js';
 import { isAuth } from '../utils.js';
 
 const orderRouter=express.Router();
-
+orderRouter.get('/mine',isAuth,expressAsyncHandler(async(req,res)=>{
+    const orders=await Order.find({user:req.user._id});
+    console.log(req.user);
+    res.send(orders);
+}));
 orderRouter.post('/',isAuth,expressAsyncHandler(async(req,res)=>{
     if(req.body.orderItems.length===0){
         res.status(400).send({message:'Cart is Empty'});
@@ -33,7 +37,7 @@ orderRouter.get('/:id',isAuth,expressAsyncHandler(async(req,res)=>{
         res.send(order);
     }
     else
-    res.status(404).send({message:'Order Bot Found'});
+    res.status(404).send({message:'Order Not Found'});
 }));
 orderRouter.put('/:id/pay',isAuth,expressAsyncHandler(async(req,res)=>{
     const order=await Order.findById(req.params.id);
@@ -48,4 +52,5 @@ orderRouter.put('/:id/pay',isAuth,expressAsyncHandler(async(req,res)=>{
     else
     res.status(404).send({message:'Order Not Found'});
 }))
+
 export default orderRouter;

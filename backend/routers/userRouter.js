@@ -40,7 +40,14 @@ userRouter.post('/register',expressAsyncHandler(async(req,res)=>{
         token: generateToken(createdUser),
     });
 }
-
-
 ))
+userRouter.get('/:id',expressAsyncHandler(async(req,res)=>{
+    const user=await User.findById(req.param.id);
+    if(user){
+        res.send(user);
+    }
+    else{
+        res.status(404).send({message:'User Not Found'});
+    }
+}));
 export default userRouter;
