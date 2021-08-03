@@ -11,7 +11,12 @@ import ShippingAddressScreen from './screens/ShippingAddressScreen';
 import PaymentMethodScreen from './screens/PaymentMethodScreen';
 import PlaceOrderScreen from './screens/PlaceOrderScreen';
 import OrderScreen from './screens/OrderScreen';
-
+import OrderHistoryScreen from './screens/OrderHistoryScreen';
+import ProfileScreen from './screens/ProfileScreen';
+import PrivateRoute from './components/PrivateRoute';
+import AdminRoute from './components/AdminRoute';
+import ProductListScreen from './screens/ProductListScreen';
+import ProductEditScreen from './screens/ProductEditScreen';
 function App() {
   const cart=useSelector(state=>state.cart);
   const {cartItems}=cart;
@@ -42,16 +47,45 @@ function App() {
                           <i className='fa fa-caret-down'></i>{' '}
                     </Link>
                     <ul className='dropdown-content'>
+                      <li>
+                        <Link to='/profile'>User Profile</Link>
+                      </li>
+                      <li>
+                        <Link to='/orderHistory'>Order History</Link>
+                      </li>
+                      <li>
                        <Link to='#signout' onClick={signoutHandler}>Sign Out</Link>
+                       </li>
                     </ul>
                 </div>
                     :
                 <Link to='/signin'>Sign In</Link>
-            }         
+            }  
+            {userInfo ?userInfo.isAdmin &&(
+              <div className='dropdown'>
+                <Link to='#admin'>Admin {' '}<i className='fa fa-caret-down'></i></Link>
+                <ul className="dropdown-content">
+                  <li>
+                    <Link to='/dashboard'>Dashboard</Link>
+                  </li>
+                  <li>
+                    <Link to='/productlist'>Products</Link>
+                  </li>
+                  <li>
+                    <Link to='/orders'>Orders</Link>
+                  </li>
+                  <li>
+                    <Link to='/userlist'>Users</Link>
+                  </li>
+                </ul>
+              </div>
+
+            ):''}       
         </div>
     </header>
     <main>
-      <Route path='/product/:id' component={ProductScreen}></Route>
+      <Route path='/product/:id' component={ProductScreen} exact></Route>
+      <Route path='/product/:id/edit' component={ProductEditScreen} exact></Route>
       <Route path='/' component={HomeScreen} exact></Route>
        <Route path='/signin' component={SigninScreen} exact></Route>
       <Route path='/cart/:id?' component={CartScreen} exact></Route>
@@ -60,6 +94,10 @@ function App() {
        <Route path='/payment' component={PaymentMethodScreen} exact></Route>
        <Route path='/placeorder' component={PlaceOrderScreen} exact></Route>
        <Route path="/order/:id" component={OrderScreen} exact></Route>
+       <PrivateRoute path='/profile' component={ProfileScreen} exact></PrivateRoute>
+       <AdminRoute path='/productlist' component={ProductListScreen} exact></AdminRoute>
+       <Route path='/orderhistory' component={OrderHistoryScreen} exact></Route>
+
   </main>
     <footer className='row center'>
        All Rights Reserved

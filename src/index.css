@@ -79,6 +79,7 @@ button{
   background-color: #f8f8f8;
   cursor:pointer;
 }
+
 input:hover,
 select:hover,
 textarea:hover,
@@ -90,6 +91,9 @@ button.primary{
 }
 button.block{
   width:100%;
+}
+button.small{
+font-size:1.2 rem;
 }
 /*Header */
 header a{
@@ -244,4 +248,21 @@ img.large{
 .checkout-steps > div.active{
   border-top-color:orange;
   color:orange;
+}
+
+/*Table*/
+.table{
+  width:100%;
+  border-collapse:collapse;
+}
+.table tbody tr:nth-of-type(odd){
+  background-color:#f4f4f4;
+}
+.table td,table th{
+  text-align:left;
+  border:0.1rem solid #e4e4e4;
+  padding:0.5rem;
+}
+.table button{
+  margin:0 0.2rem;
 }
