@@ -24,5 +24,13 @@ export const isAuth=(req,res,next)=>{
        });
    }
    else
-   res.status(404).send({message:'Ivalid Token '});
+   res.status(404).send({message:'Invalid Token '});
+}
+
+export const isAdmin=(req,res,next)=>{
+    if(req.user&&req.user.isAdmin){
+        next();
+    }
+    else
+    res.status(404).send({message:'Invalid Admin Token '});
 }
